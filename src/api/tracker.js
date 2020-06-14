@@ -5,7 +5,7 @@ import { AsyncStorage } from 'react-native';
 // need to run "ngrok http 3000" to get new url
 let url;
 if (__DEV__) {
-  url = 'http://cd14184c.ngrok.io';
+  url = 'http://9a0229b996f7.ngrok.io/';
 } else {
   url = 'https://sleepy-savannah-10606.herokuapp.com';
 }

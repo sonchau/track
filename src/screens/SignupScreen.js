@@ -1,50 +1,42 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import {Text, Input, Button} from 'react-native-elements';
-import Spacer from '../components/Spacer';
+import { NavigationEvents } from 'react-navigation';
+import { Context as AuthContext } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
-const SignupScreen = ({navigation}) => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+const SignupScreen = ({ navigation }) => {
+  const { state, signup, clearErrorMessage } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
-        <Spacer>
-            <Text h3>Sign Up for tracker </Text>
-        </Spacer>
-
-        <Input label="Email"
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={email}
-            onChangeText={(newEmail) => setEmail(newEmail)}
-        />
-        <Spacer />
-        <Input label="Password" 
-            secureTextEntry
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={password}
-            onChangeText={(newPassword) => setPassword(newPassword)}/>
-        <Spacer>
-            <Button title="Sign Up" />
-        </Spacer>
-
+      <NavigationEvents onWillBlur={clearErrorMessage} />
+      <AuthForm
+        headerText="Sign Up for Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign Up"
+        onSubmit={signup}
+      />
+      <NavLink
+        routeName="Signin"
+        text="Already have an account? Sign in instead!"
+      />
     </View>
   );
 };
 
 SignupScreen.navigationOptions = () => {
-    return {
-        headerShown: false
-    }
-}
+  return {
+    header: null
+  };
+};
+
 const styles = StyleSheet.create({
-    container : {
-        // flex: 1,
-        // justifyContent: "center",
-        // marginBottom: 250
-        marginTop: 200
-    }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: 250
+  }
 });
 
 export default SignupScreen;

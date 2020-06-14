@@ -32,9 +32,18 @@ const clearErrorMessage = dispatch => () => {
   dispatch({ type: 'clear_error_message' });
 };
 
+// this is implicite return similar to
+// const add = (a, b) => a + b
+// or 
+// const add = (a, b) => {
+//  return a +b
+//}
 const signup = dispatch => async ({ email, password }) => {
+  console.log('here', email, 'password', password)
   try {
     const response = await trackerApi.post('/signup', { email, password });
+    console.log('response sign up', response.data)
+
     await AsyncStorage.setItem('token', response.data.token);
     dispatch({ type: 'signin', payload: response.data.token });
 
@@ -44,6 +53,7 @@ const signup = dispatch => async ({ email, password }) => {
       type: 'add_error',
       payload: 'Something went wrong with sign up'
     });
+    console.log('response sign up error', err.response.data)
   }
 };
 
